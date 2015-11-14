@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>{{ name }}</title>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #FFF;
+        }
+
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://pdk.theplatform.com/{{pdk}}/pdk/tpPdkController.js"></script>
+</head>
+<body>
+<iframe id="player" width="1024" height="574" src="{{playerUrl}}" allowfullscreen webkitallowfullscreen
+        mozallowfullscreen oallowfullscreen msallowfullscreen frameborder="0"></iframe>
+{{playerUrl}}
+<script>
+
+    $(document).ready(function () {
+
+        $pdk.bind("player");
+
+        $pdk.controller.addEventListener("OnPlayerLoaded", function (e) {
+
+            console.log(this);
+        });
+    });
+
+</script>
+</body>
+</html>
