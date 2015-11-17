@@ -4,7 +4,7 @@
 
 /**
  * This class is responsible for listening to post messages from NBC.com pages to the player iFrame.  The message
- * contains the user’s MVPD provider.  This data is dispatched in a PDK event used by content metadata.
+ * contains the user’s MVPD provider.  This data is dispatched from the PDK controller which ContentMetadata listens for.
  *
  * @param {EventDispatcher} _pdkEventDispatcher the event
  *    dispatcher for events related to the PDK.

@@ -3,69 +3,55 @@
  ------------------------------------- */
 
 function loadHeartbeatApp() {
-    console.log('[NBCHeartbeatApp] -----> OnPlayerLoaded');
+    console.log("[NBCHeartbeatApp] -----> OnPlayerLoaded");
     NBCHeartbeatCustomData.init();
 }
 
 function NBCHeartbeatApp() {
+    this.authenticationProxy = null;
     this.contentMetadata = null;
     this.cache = null;
+    this.customDataFactory = null;
     app = this;
 }
-NBCHeartbeatApp.prototype.init = function() {
-    app.initServices();
-    app.initContentMetadata();
-}
 
-NBCHeartbeatApp.prototype.initServices = function () {
-    console.log('[NBCHeartbeatApp] -----> initServices() contentMetadata created');
-    var translator = new EventTranslator();
-    contentMetadata = new ContentMetadataLocator($pdk, translator);
-    contentMetadata.init();
-    authenticationProxy = new AuthenticationProxy($pdk.controller);
-    authenticationProxy.init();
+NBCHeartbeatApp.prototype.init = function () {
+    this.customDataFactory = new CustomDataFactory($pdk.controller);
+    this.contentMetadata = new ContentMetadataLocator($pdk, new EventTranslator());
+    this.contentMetadata.init();
+    this.authenticationProxy = new AuthenticationProxy($pdk.controller);
+    this.authenticationProxy.init();
+    if (app.cache) {
+        console.log("[NBCHeartbeatApp] -----> cache detected, use stored release data.");
+        contentMetadata.updateReleaseData(app.cache);
+    }
 };
 
-NBCHeartbeatApp.prototype.initContentMetadata = function () {
-    if (app.cache) {
-        console.log('[NBCHeartbeatApp] -----> cache detected, use stored release data.');
-        contentMetadata.updateReleaseData(app.cache);
-    } else {
-        console.log('[Metrics] 2 [MAIN] -----> cache NOT detected, wait for PDK events.');
-        $pdk.controller.addEventListener("OnMediaLoadStart", contentMetadata.contentMetadataupdateAvailabilityState);
-        $pdk.controller.addEventListener("OnReleaseStart", contentMetadata.updateReleaseData);
-        $pdk.controller.addEventListener("OnSetReleaseUrl", contentMetadata.onSetReleaseUrl);
-    }
-}
-
 NBCHeartbeatApp.prototype.pluginCallback = function(event) {
+    var payload = {};
+    if (this.customDataFactory.initialized()) {
+        for (var fieldName in NBCUHeartbeatCustomFields) {
+            payload[fieldName] = this.customDataFactory.getCustomData(NBCUHeartbeatCustomFields[fieldName]);
+        }
+    }
     // main video metadata
     if (event.type == "OnReleaseStart") {
-        var playlist = event.data;
-        return {
-            myField: "My Custom main value!!!!!!"
-        }
+        return payload;
     }
     // ad metadata
     else if (event.type == "OnMediaStart" && event.data.baseClip.isAd) {
-        var clip = event.data;
-        return {
-            myField: "My Custom ad value!!!!!!"
-        }
+        return payload;
     }
     // chapter metadata
     else if (event.type == "OnMediaStart" && !event.data.baseClip.isAd) {
-        var clip = event.data;
-        return {
-            myField: "My Custom chapter value!!!!!!"
-        }
+        return payload;
     }
 };
 
 var NBCHeartbeatCustomData = new NBCHeartbeatApp();
 $pdk.controller.addEventListener("OnPlayerLoaded", loadHeartbeatApp);
 $pdk.controller.addEventListener("OnReleaseStart", function (e) {
-    console.log('[NBCHeartbeatApp] -----> OnReleaseStart');
+    console.log("[NBCHeartbeatApp] -----> OnReleaseStart");
     NBCHeartbeatCustomData.cache = e;
 });
 

@@ -411,14 +411,14 @@ function ContentMetadataLocator(pdk, translator) {
 
         if (currentContentMetadata) {
             currentContentMetadata.setAvailabilityState(translator.translateAvailabilityState(e));
-            _pdk.controller.dispatchEvent(ContentMetadataUpdateEvent.CONTENT_METADATA_UPDATE, currentContentMetadata);
+            _pdk.controller.dispatchEvent(ContentMetadataEvent.CONTENT_METADATA_UPDATE, currentContentMetadata);
         }
     }
 
     this.updateReleaseData = function (e) {
         _pdk.controller.removeEventListener("OnReleaseStart", this.updateReleaseData);
         currentContentMetadata = _this.getContentMetadata(e);
-        _pdk.controller.dispatchEvent(ContentMetadataUpdateEvent.CONTENT_METADATA_UPDATE, currentContentMetadata);
+        _pdk.controller.dispatchEvent(ContentMetadataEvent.CONTENT_METADATA_UPDATE, currentContentMetadata);
     }
 
     function onSetReleaseUrl(e) {
