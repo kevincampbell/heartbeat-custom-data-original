@@ -41,9 +41,25 @@ function CustomDataFactory(_pdkEventDispatcher) {
     }
 
     function replaceKey(str) {
+        var d = new Date();
+
         str = str.split("[SHOW_NAME]").join(contentMetadata.getShowName());
         str = str.split("[DAY_PART]").join(contentMetadata.getDayPart());
+        str = str.split("[FORMATTED_MINUTES]").join(formatWithTwoDigits(d.getHours()) + ":" + formatWithTwoDigits(d.getMinutes()));
+        str = str.split("[DATE_GET_HOURS]").join(formatHours(d.getHours()));
+        str = str.split("[DAY_OF_WEEK]").join(weekdays[d.getDay()]);str = str.split("[MONTH]").join(formatWithTwoDigits(d.getMonth() + 1));
+        str = str.split("[DATE_GET_DATE]").join(formatWithTwoDigits(d.getDate()));
+        str = str.split("[DATE_GET_FULL_YEAR]").join(d.getFullYear());
 
         return str;
     }
+
+    function formatWithTwoDigits(d) {
+        return ('0' + d).slice(-2);
+    }
+
+    function formatHours(n) {
+        return formatWithTwoDigits(n) + ":00";
+    }
+    var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 }
