@@ -50,6 +50,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[DAY_OF_WEEK]").join(weekdays[d.getDay()]);str = str.split("[MONTH]").join(formatWithTwoDigits(d.getMonth() + 1));
         str = str.split("[DATE_GET_DATE]").join(formatWithTwoDigits(d.getDate()));
         str = str.split("[DATE_GET_FULL_YEAR]").join(d.getFullYear());
+        str = str.split("[PLATFORM]").join(getPlatform());
 
         return str;
     }
@@ -61,5 +62,14 @@ function CustomDataFactory(_pdkEventDispatcher) {
     function formatHours(n) {
         return formatWithTwoDigits(n) + ":00";
     }
+
     var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    function isMobile() {
+        return navigator.userAgent.toLowerCase().match(/iphone|ipad|ipod|android|webos|palm|googletv|silk|windows phone|trident.*wp[1-9]|blackberry|bb10/) ? true : false;
+    }
+
+    function getPlatform() {
+        return isMobile() ? 'Mobile' : 'PC';
+    }
 }
