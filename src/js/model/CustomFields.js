@@ -11,5 +11,6 @@ var NBCUHeartbeatCustomFields = {
     "videodate": "[MONTH]/[DATE_GET_DATE]/[DATE_GET_FULL_YEAR]",
     "videoplayertech": "HTML5 Desktop",
     "videoplatform": "[PLATFORM]",
-    "videonetwork": "NBC"
+    "videonetwork": "NBC",
+    "videomvpd": "[MVPD]"
 }

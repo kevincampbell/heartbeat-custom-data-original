@@ -11,7 +11,9 @@
 function CustomDataFactory(_pdkEventDispatcher) {
     var pdkEventDispatcher = _pdkEventDispatcher;
     pdkEventDispatcher.addEventListener(ContentMetadataEvent.CONTENT_METADATA_UPDATE, onContentMetadataUpdate);
+    pdkEventDispatcher.addEventListener("pageToPlayerEvent", onPageToPlayer);
     var contentMetadata = null;
+    var mvpdid = null;
 
     /**
      * Public functions
@@ -40,6 +42,13 @@ function CustomDataFactory(_pdkEventDispatcher) {
         console.log("[NBCHeartbeatApp] CustomDataFactory.onContentMetadataUpdate()");
     }
 
+    function onPageToPlayer(event) {
+        if (event.data.mvpdid && event.data.mvpdid != 'undefined') {
+            mvpdid = event.data.mvpdid;
+            console.log("[NBCHeartbeatApp] CustomDataFactory.onPageToPlayer() mvpd: " + mvpdid);
+        }
+    }
+
     function replaceKey(str) {
         var d = new Date();
 
@@ -51,6 +60,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[DATE_GET_DATE]").join(formatWithTwoDigits(d.getDate()));
         str = str.split("[DATE_GET_FULL_YEAR]").join(d.getFullYear());
         str = str.split("[PLATFORM]").join(getPlatform());
+        str = str.split("[MVPD]").join(getMVPD());
 
         return str;
     }
@@ -71,5 +81,13 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getPlatform() {
         return isMobile() ? 'Mobile' : 'PC';
+    }
+
+    function getMVPD() {
+        if (mvpdid != null) {
+            return mvpdid;
+        } else {
+            return "";
+        }
     }
 }

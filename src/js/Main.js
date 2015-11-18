@@ -8,7 +8,8 @@ function loadHeartbeatApp() {
 }
 
 function NBCHeartbeatApp() {
-    this.authenticationProxy = null;
+    this.authenticationProxy = new AuthenticationProxy($pdk.controller);
+    this.authenticationProxy.init();
     this.contentMetadata = null;
     this.cache = null;
     this.customDataFactory = null;
@@ -19,8 +20,6 @@ NBCHeartbeatApp.prototype.init = function () {
     this.customDataFactory = new CustomDataFactory($pdk.controller);
     this.contentMetadata = new ContentMetadataLocator($pdk, new EventTranslator());
     this.contentMetadata.init();
-    this.authenticationProxy = new AuthenticationProxy($pdk.controller);
-    this.authenticationProxy.init();
     if (app.cache) {
         console.log("[NBCHeartbeatApp] -----> cache detected, use stored release data.");
         contentMetadata.updateReleaseData(app.cache);
@@ -31,7 +30,12 @@ NBCHeartbeatApp.prototype.pluginCallback = function(event) {
     var payload = {};
     if (this.customDataFactory.initialized()) {
         for (var fieldName in NBCUHeartbeatCustomFields) {
-            payload[fieldName] = this.customDataFactory.getCustomData(NBCUHeartbeatCustomFields[fieldName]);
+            var val = this.customDataFactory.getCustomData(NBCUHeartbeatCustomFields[fieldName]);
+            if (val.length > 0) {
+                payload[fieldName] = val;
+            } else {
+                delete payload[fieldName];
+            }
         }
     }
     // main video metadata
