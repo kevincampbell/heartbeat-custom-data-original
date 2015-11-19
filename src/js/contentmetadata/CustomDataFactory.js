@@ -73,6 +73,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[SECONDARY_CATEGORY]").join(getSecondaryCategory());
         str = str.split("[VIDEO_SCREEN]").join(getVideoScreen());
         str = str.split("[ASSETSTATUS]").join(getAssetStatus());
+        str = str.split("[PLAYER_URL]").join(getPlayerURL());
 
         return str;
     }
@@ -148,5 +149,15 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getEntitlement() {
         return contentMetadata.getEntitlement();
+    }
+
+    function getPlayerURL() {
+        var topUrl;
+        if (window.top === window.self) {
+            topUrl = window.top.location.href;
+        } else {
+            topUrl = window.document.referrer.toString();
+        }
+        return topUrl;
     }
 }
