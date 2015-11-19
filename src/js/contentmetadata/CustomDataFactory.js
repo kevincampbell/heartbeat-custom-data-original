@@ -74,6 +74,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[VIDEO_SCREEN]").join(getVideoScreen());
         str = str.split("[ASSETSTATUS]").join(getAssetStatus());
         str = str.split("[PLAYER_URL]").join(getPlayerURL());
+        str = str.split("[EPISODE_NUM]").join(getEpisodeNumber());
 
         return str;
     }
@@ -159,5 +160,9 @@ function CustomDataFactory(_pdkEventDispatcher) {
             topUrl = window.document.referrer.toString();
         }
         return topUrl;
+    }
+
+    function getEpisodeNumber() {
+        return contentMetadata.getAirOrder() ? contentMetadata.getAirOrder() : "";
     }
 }

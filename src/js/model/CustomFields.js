@@ -18,5 +18,6 @@ var NBCUHeartbeatCustomFields = {
     "videosubcat2": "[SECONDARY_CATEGORY]",
     "videoscreen": "[VIDEO_SCREEN]",
     "videostatus": "[ASSETSTATUS]",
-    "videoplayerurl": "[PLAYER_URL]"
+    "videoplayerurl": "[PLAYER_URL]",
+    "videoepnumber": "[EPISODE_NUM]"
 }
