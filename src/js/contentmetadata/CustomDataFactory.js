@@ -67,6 +67,8 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[PLATFORM]").join(getPlatform());
         str = str.split("[MVPD]").join(getMVPD());
         str = str.split("[INITIATE]").join(getInitiateValue());
+        str = str.split("[PRIMARY_CATEGORY]").join(getPrimaryCategory());
+        str = str.split("[SECONDARY_CATEGORY]").join(getSecondaryCategory());
 
         return str;
     }
@@ -110,5 +112,17 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getInitiateValue() {
         return (hasAutoPlayParameters()) ? "Auto Play" : "Manual";
+    }
+
+    function getPrimaryCategory() {
+        var primary = "";
+        if (contentMetadata.getPrimaryCategory() !== null) primary= contentMetadata.getPrimaryCategory();
+        return primary;
+    }
+
+    function getSecondaryCategory() {
+        var secondary = "";
+        if (contentMetadata.getSecondaryCategory() !== null) secondary = contentMetadata.getSecondaryCategory();
+        return secondary;
     }
 }
