@@ -72,6 +72,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[PRIMARY_CATEGORY]").join(getPrimaryCategory());
         str = str.split("[SECONDARY_CATEGORY]").join(getSecondaryCategory());
         str = str.split("[VIDEO_SCREEN]").join(getVideoScreen());
+        str = str.split("[ASSETSTATUS]").join(getAssetStatus());
 
         return str;
     }
@@ -135,5 +136,17 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getVideoScreen() {
         return isFullScreen ? "Full" : "Normal";
+    }
+
+    function getAssetStatus() {
+        var retVal = "Unrestricted";
+        if (getEntitlement() === "auth") {
+            retVal = "Restricted";
+        }
+        return retVal;
+    }
+
+    function getEntitlement() {
+        return contentMetadata.getEntitlement();
     }
 }
