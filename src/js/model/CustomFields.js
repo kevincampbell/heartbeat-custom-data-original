@@ -21,5 +21,6 @@ var NBCUHeartbeatCustomFields = {
     "videoplayerurl": "[PLAYER_URL]",
     "videoepnumber": "[EPISODE_NUM]",
     "videoguid": "[GUID]",
-    "videoairdate": "[AIRDATE]"
+    "videoairdate": "[AIRDATE]",
+    "videoseason": "[SEASON]"
 }
