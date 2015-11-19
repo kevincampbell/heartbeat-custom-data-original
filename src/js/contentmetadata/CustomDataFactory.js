@@ -14,6 +14,11 @@ function CustomDataFactory(_pdkEventDispatcher) {
     pdkEventDispatcher.addEventListener("pageToPlayerEvent", onPageToPlayer);
     var contentMetadata = null;
     var mvpdid = null;
+    var params = {};
+    if ((location.search.toLowerCase()).indexOf("fwautoplay") > -1) {
+        params.fwautoplay = getParameterByName("fwautoplay");
+    }
+    params.autoplay = getParameterByName("autoplay");
 
     /**
      * Public functions
@@ -61,6 +66,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[DATE_GET_FULL_YEAR]").join(d.getFullYear());
         str = str.split("[PLATFORM]").join(getPlatform());
         str = str.split("[MVPD]").join(getMVPD());
+        str = str.split("[INITIATE]").join(getInitiateValue());
 
         return str;
     }
@@ -89,5 +95,20 @@ function CustomDataFactory(_pdkEventDispatcher) {
         } else {
             return "";
         }
+    }
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search.toLowerCase());
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function hasAutoPlayParameters() {
+        return (params.fwautoplay) ? ("false" !== String(params.fwautoplay)) : ("true" === String(params.autoplay));
+    }
+
+    function getInitiateValue() {
+        return (hasAutoPlayParameters()) ? "Auto Play" : "Manual";
     }
 }
