@@ -12,8 +12,10 @@ function CustomDataFactory(_pdkEventDispatcher) {
     var pdkEventDispatcher = _pdkEventDispatcher;
     pdkEventDispatcher.addEventListener(ContentMetadataEvent.CONTENT_METADATA_UPDATE, onContentMetadataUpdate);
     pdkEventDispatcher.addEventListener("pageToPlayerEvent", onPageToPlayer);
+    pdkEventDispatcher.addEventListener("OnShowFullScreen", onShowFullScreen);
     var contentMetadata = null;
     var mvpdid = null;
+    var isFullScreen = false;
     var params = {};
     if ((location.search.toLowerCase()).indexOf("fwautoplay") > -1) {
         params.fwautoplay = getParameterByName("fwautoplay");
@@ -69,6 +71,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[INITIATE]").join(getInitiateValue());
         str = str.split("[PRIMARY_CATEGORY]").join(getPrimaryCategory());
         str = str.split("[SECONDARY_CATEGORY]").join(getSecondaryCategory());
+        str = str.split("[VIDEO_SCREEN]").join(getVideoScreen());
 
         return str;
     }
@@ -124,5 +127,13 @@ function CustomDataFactory(_pdkEventDispatcher) {
         var secondary = "";
         if (contentMetadata.getSecondaryCategory() !== null) secondary = contentMetadata.getSecondaryCategory();
         return secondary;
+    }
+
+    function onShowFullScreen(event) {
+        isFullScreen = event.data;
+    }
+
+    function getVideoScreen() {
+        return isFullScreen ? "Full" : "Normal";
     }
 }

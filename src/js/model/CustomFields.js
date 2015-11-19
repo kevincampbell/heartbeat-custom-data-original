@@ -15,5 +15,6 @@ var NBCUHeartbeatCustomFields = {
     "videomvpd": "[MVPD]",
     "videoinitiate": "[INITIATE]",
     "videosubcat1": "[PRIMARY_CATEGORY]",
-    "videosubcat2": "[SECONDARY_CATEGORY]"
+    "videosubcat2": "[SECONDARY_CATEGORY]",
+    "videoscreen": "[VIDEO_SCREEN]"
 }
