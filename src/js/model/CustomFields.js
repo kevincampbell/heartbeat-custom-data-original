@@ -19,5 +19,6 @@ var NBCUHeartbeatCustomFields = {
     "videoscreen": "[VIDEO_SCREEN]",
     "videostatus": "[ASSETSTATUS]",
     "videoplayerurl": "[PLAYER_URL]",
-    "videoepnumber": "[EPISODE_NUM]"
+    "videoepnumber": "[EPISODE_NUM]",
+    "videoguid": "[GUID]"
 }

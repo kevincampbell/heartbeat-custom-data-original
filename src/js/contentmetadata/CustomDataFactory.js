@@ -75,6 +75,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[ASSETSTATUS]").join(getAssetStatus());
         str = str.split("[PLAYER_URL]").join(getPlayerURL());
         str = str.split("[EPISODE_NUM]").join(getEpisodeNumber());
+        str = str.split("[GUID]").join(getGuid());
 
         return str;
     }
@@ -164,5 +165,9 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getEpisodeNumber() {
         return contentMetadata.getAirOrder() ? contentMetadata.getAirOrder() : "";
+    }
+
+    function getGuid() {
+        return contentMetadata.getGuid();
     }
 }
