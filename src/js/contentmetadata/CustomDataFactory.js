@@ -76,6 +76,7 @@ function CustomDataFactory(_pdkEventDispatcher) {
         str = str.split("[PLAYER_URL]").join(getPlayerURL());
         str = str.split("[EPISODE_NUM]").join(getEpisodeNumber());
         str = str.split("[GUID]").join(getGuid());
+        str = str.split("[AIRDATE]").join(getAirDate());
 
         return str;
     }
@@ -169,5 +170,17 @@ function CustomDataFactory(_pdkEventDispatcher) {
 
     function getGuid() {
         return contentMetadata.getGuid();
+    }
+
+    function getAirDate()
+    {
+        return (contentMetadata.getAirDate()) ? formatAirDate(contentMetadata.getAirDate()) : "";
+    }
+
+    function formatAirDate(str)
+    {
+        var d = new Date(str);
+
+        return (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear();
     }
 }
